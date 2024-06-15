@@ -45,6 +45,7 @@ watch(() => messageSocket.value,
     masterStore.setLedRight(val.led_right)
     masterStore.setBuzzer(val.buzzer)
     masterStore.setBuzzerVolume(val.buzzer_volume)
+    masterStore.setDelay(Math.abs(calculateDelay(val.time)))
   }
 })
 </script>

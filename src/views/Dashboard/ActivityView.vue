@@ -111,11 +111,14 @@ const timeoutVolume = ref<any>(null)
         <div
       class="rounded-xl border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark"
     >
-      <div
-        class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4"
-      >
-      <ISvg icon="solar:airbuds-case-charge-broken" class="text-xl"/>
-    </div>
+      <div class="flex w-full justify-between">
+        <div
+            class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4"
+          >
+          <ISvg icon="solar:airbuds-case-charge-broken" class="text-xl"/>
+        </div>
+        <span>Độ trễ: {{ masterStore.getDelay }}ms</span>
+      </div>
 
       <div class="mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-3">
         <!-- left -->
@@ -138,7 +141,7 @@ const timeoutVolume = ref<any>(null)
       <hr class="text-slate-200 my-8">
       <!-- range -->
       <div class="h-fit rounded w-full">
-          <h4 class="text-base font-base text-black dark:text-white">Âm lượng còi:</h4>
+          <h4 class="text-base font-base text-black dark:text-white">Âm lượng còi: {{ masterStore.buzzer_volume }}</h4>
           <div class="flex w-full gap-5">
             <span class="text-base font-base text-black dark:text-white"
             >0</span>

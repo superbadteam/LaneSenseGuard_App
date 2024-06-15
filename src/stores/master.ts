@@ -9,7 +9,8 @@ export const useMasterStore = defineStore({
         time: 0,
         totalUsers: 0,
         buzzer: 0,
-        buzzer_volume: 0
+        buzzer_volume: 0,
+        deplay: 0
     }),
     getters: {
         getLedLeft(): number {
@@ -32,6 +33,9 @@ export const useMasterStore = defineStore({
         },
         getBuzzerVolume(): number {
             return this.buzzer_volume;
+        },
+        getDelay(): number {
+            return this.deplay;
         }
     },
     actions: {
@@ -55,6 +59,9 @@ export const useMasterStore = defineStore({
         },
         setBuzzerVolume(buzzer_volume: number) {
             this.buzzer_volume = buzzer_volume;
+        },
+        setDelay(deplay: number) {
+            this.deplay = deplay;
         }
     },
 });
