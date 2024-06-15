@@ -37,7 +37,6 @@ const masterStore = useMasterStore()
 const messageSocket = computed(() => socketStore.message);
 watch(() => messageSocket.value,
 (val) => {
-  socketStore.setDelay(calculateDelay(val.time))
   console.log('messageSocket', calculateDelay(val.time))
   if (val.time) {
     masterStore.setSystemStatus(val.system_status)

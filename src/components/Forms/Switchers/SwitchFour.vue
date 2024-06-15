@@ -4,6 +4,7 @@ import { ref } from 'vue'
 const switcherToggle = ref<boolean>(false)
 const model = defineModel({ default: false})
 defineProps(['disabled'])
+defineEmits(['change'])
 </script>
 
 <template>
@@ -17,7 +18,7 @@ defineProps(['disabled'])
           type="checkbox"
           id="toggle4"
           class="sr-only"
-          @change="$emit('update:modelValue', !model)"
+          @change="$emit('change', !model)"
         />
         <div
           :class="model && '!bg-primary'"
