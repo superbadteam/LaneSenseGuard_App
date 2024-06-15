@@ -8,7 +8,8 @@ export const useMasterStore = defineStore({
         system_status: 0,
         time: 0,
         totalUsers: 0,
-        buzzer: 0
+        buzzer: 0,
+        buzzer_volume: 0
     }),
     getters: {
         getLedLeft(): number {
@@ -28,6 +29,9 @@ export const useMasterStore = defineStore({
         },
         getBuzzer(): number {
             return this.buzzer;
+        },
+        getBuzzerVolume(): number {
+            return this.buzzer_volume;
         }
     },
     actions: {
@@ -48,6 +52,9 @@ export const useMasterStore = defineStore({
         },
         setBuzzer(buzzer: number) {
             this.buzzer = buzzer;
+        },
+        setBuzzerVolume(buzzer_volume: number) {
+            this.buzzer_volume = buzzer_volume;
         }
     },
 });

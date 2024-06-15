@@ -4,6 +4,8 @@ interface Message {
     led_left: number;
     system_status: number;
     time: number;
+    buzzer: number;
+    buzzer_volume: number;
 }
 export const useSocketStore = defineStore({
     id: "socket-common",

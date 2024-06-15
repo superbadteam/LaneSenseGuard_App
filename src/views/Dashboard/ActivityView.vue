@@ -4,6 +4,8 @@ import ActivityChart from '@/components/Dashboard/ActivityChart.vue'
 import { getDailyActivities } from '@/services/activities';
 import { useLoadingStore } from '@/stores/loading';
 import SwitchFour from '@/components/Forms/Switchers/SwitchFour.vue'
+import { useMasterStore } from '@/stores/master';
+import { useSocketStore } from '@/stores/ws';
 
 const loadingStore = useLoadingStore();
 onBeforeMount(async () => {
@@ -67,12 +69,37 @@ const chartActivities = computed(() => {
   }
 })
 
+const socketStore = useSocketStore();
 const systemStatus = ref(false)
 const onChangeSystem = (value: boolean) => {
-  systemStatus.value = value
+  socketStore.sendMessage({
+    system_status: value ? 1 : 0,
+  })
+  
 }
 
 const volume = ref(0)
+
+const masterStore = useMasterStore()
+
+watch(masterStore,
+  (val) => {
+    volume.value = val.buzzer_volume,
+    systemStatus.value = Boolean(val.system_status)
+    volume.value = val.buzzer_volume
+  }
+)
+
+const onChangeVolume = (value: number) => {
+  clearTimeout(timeoutVolume.value)
+  timeoutVolume.value = setTimeout(() => {
+    socketStore.sendMessage({
+      buzzer_volume: value
+    })
+  }, 500)
+}
+
+const timeoutVolume = ref<any>(null)
 </script>
 
 <template>
@@ -90,21 +117,21 @@ const volume = ref(0)
       <ISvg icon="solar:airbuds-case-charge-broken" class="text-xl"/>
     </div>
 
-      <div class="mt-4 grid grid-cols-2">
+      <div class="mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-3">
         <!-- left -->
         <div class="grid grid-cols-2 gap-3">
           <h4 class="text-base font-base text-black dark:text-white">Chế độ cảnh báo</h4>
           <SwitchFour @update:modelValue="onChangeSystem" v-model="systemStatus"/>
           <h4 class="text-base font-base text-black dark:text-white">Còi</h4>
-          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="systemStatus"/>
+          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="masterStore.buzzer"/>
         </div>
 
         <!-- right -->
         <div class="grid grid-cols-2 gap-3">
           <h4 class="text-base font-base text-black dark:text-white">Xi nhan trái</h4>
-          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="systemStatus"/>
+          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="masterStore.led_left"/>
           <h4 class="text-base font-base text-black dark:text-white">Xi nhan phải</h4>
-          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="systemStatus"/>
+          <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="masterStore.led_right"/>
         </div>
       </div>
 
@@ -112,7 +139,13 @@ const volume = ref(0)
       <!-- range -->
       <div class="h-fit rounded w-full">
           <h4 class="text-base font-base text-black dark:text-white">Âm lượng còi:</h4>
-          <vue-slider v-model="volume"></vue-slider>
+          <div class="flex w-full gap-5">
+            <span class="text-base font-base text-black dark:text-white"
+            >0</span>
+            <vue-slider class="flex-1" v-model="volume" @change="onChangeVolume"></vue-slider>
+            <span class="text-base font-base text-black dark:text-white"
+            >100</span>
+          </div>
       </div>
     </div>
       <!-- ====== Chart One Start -->

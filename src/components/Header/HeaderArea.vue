@@ -69,7 +69,7 @@ const input = ref('')
           <img src="@/assets/images/logo/logo-icon.svg" alt="Logo" />
         </router-link>
       </div>
-      <div class="hidden sm:block">
+      <!-- <div class="hidden sm:block">
         <form action="https://formbold.com/s/unique_form_id" method="POST">
           <div class="relative">
             <button class="absolute top-1/2 left-0 -translate-y-1/2">
@@ -105,7 +105,7 @@ const input = ref('')
             />
           </div>
         </form>
-      </div>
+      </div> -->
 
       <div class="flex items-center gap-3 2xsm:gap-7">
         <ul class="flex items-center gap-2 2xsm:gap-4">
