@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3060",
+    "dev": "vite --port 3060 --host",
     "build": "vite build",
     "preview": "vite preview",
     "build-only": "run-p type-check \"build-only {@}\" --",
