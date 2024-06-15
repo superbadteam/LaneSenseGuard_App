@@ -28,6 +28,7 @@ function calculateDelay (val) {
 const socketStore = useSocketStore();
 const isLoading = ref(true);
 onBeforeMount(() => {
+  if (socketStore.getRasID <= 0) return
   socketStore.connect(() => {
     isLoading.value = false;
   },socketStore.getRasID);

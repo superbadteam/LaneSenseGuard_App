@@ -30,7 +30,7 @@ export const useSocketStore = defineStore({
             this.rasID = rasID;
         },
         connect(callback, id) {
-            this.socket = new WebSocket("wss://unlockscan.site:5001")
+            this.socket = new WebSocket("wss://unlockscan.site")
             this.socket.onmessage = (event) => {
               this.message = JSON.parse(event.data);
             };
