@@ -122,7 +122,7 @@ const timeoutVolume = ref<any>(null)
       <div class="mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-3">
         <!-- left -->
         <div class="grid grid-cols-2 gap-3">
-          <h4 class="text-base font-base text-black dark:text-white">Chế độ cảnh báo{{ systemStatus }}</h4>
+          <h4 class="text-base font-base text-black dark:text-white">Chế độ cảnh báo</h4>
           <SwitchFour @change="onChangeSystem" v-model="systemStatus"/>
           <h4 class="text-base font-base text-black dark:text-white">Còi</h4>
           <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="masterStore.buzzer"/>
