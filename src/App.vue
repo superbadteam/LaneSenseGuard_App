@@ -30,8 +30,8 @@ const isLoading = ref(true);
 onBeforeMount(() => {
   socketStore.connect(() => {
     isLoading.value = false;
-  });
-})
+  },socketStore.getRasID);
+}, )
 
 const masterStore = useMasterStore()
 const messageSocket = computed(() => socketStore.message);

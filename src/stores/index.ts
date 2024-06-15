@@ -1,8 +1,10 @@
 import { useAuthStore } from './auth';
 import { useUserStore } from './user';
+import { useSocketStore } from './ws';
 
 export const initAuthStore = async () => {
     const userStore = useUserStore();
+    const socketStore = useSocketStore();
     const { logout } = useAuthStore();
     const access_token = localStorage.getItem('access_token') as string;
     try {
@@ -11,6 +13,7 @@ export const initAuthStore = async () => {
             //   try {
             const user = await userStore.getInfo();
             userStore.setUser(user);
+            socketStore.setRasID(Number(user.rasId));
             console.log('LOG: user', user);
             //     authStore.setAuthStore({
             //       user: data,

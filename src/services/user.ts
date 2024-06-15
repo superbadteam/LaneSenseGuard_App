@@ -3,7 +3,7 @@ import { fetchWrapper } from '@/https/fetchWrapper';
 import type { IUser } from '@/types/user';
 
 export const getInforApi = async (): Promise<IUser> => {
-    return fetchWrapper.get(`/users/profile`)
+    return fetchWrapper.get(`/users/me`)
 }
 
 export const getUsers = async (): Promise<IUser[]> => {

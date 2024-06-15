@@ -15,22 +15,30 @@ export const useSocketStore = defineStore({
         socket: null as any,
         url: "",
         delay: 0,
+        rasID: 0,
     }),
     getters: {
         isOnline(): boolean {
             return this.isConnected;
         },
+        getRasID(): number {
+            return this.rasID;
+        }
     },
     actions: {
-        connect(callback) {
-            this.socket = new WebSocket("ws://103.77.246.238:8765")
+        setRasID(rasID: number) {
+            this.rasID = rasID;
+        },
+        connect(callback, id) {
+            this.socket = new WebSocket("ws://103.77.246.238:5001")
             this.socket.onmessage = (event) => {
               this.message = JSON.parse(event.data);
             };
             this.socket.onopen = () => {
                 this.isConnected = true;
-                console.log("Connected");
+                console.log("Connected", this.rasID);
                 callback();
+                this.socket.send(JSON.stringify({ rasID: id }));
             };
             this.socket.onclose = () => {
                 this.isConnected = false;
@@ -47,6 +55,7 @@ export const useSocketStore = defineStore({
             console.log("Disconnected");
         },
         sendMessage(val) {
+            val.rasID = this.rasID;
             this.socket.send(JSON.stringify(val));
         },
         setDelay(delay: number) {

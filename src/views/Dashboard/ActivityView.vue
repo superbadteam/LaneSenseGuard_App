@@ -10,10 +10,6 @@ import { useSocketStore } from '@/stores/ws';
 const loadingStore = useLoadingStore();
 onBeforeMount(async () => {
   try {
-    loadingStore.setIsLoading(true);
-    const data = await getDailyActivities();
-    activities.value = data;
-    loadingStore.setIsLoading(false);
   } catch (error) {
     
   }
@@ -81,11 +77,11 @@ const volume = ref(0)
 
 const masterStore = useMasterStore()
 
-watch(masterStore,
-  (val) => {
-    volume.value = val.buzzer_volume,
-    systemStatus.value = Boolean(val.system_status)
-    volume.value = val.buzzer_volume
+watch([masterStore.getBuzzerVolume, masterStore.getSystemStatus], (val, old) => {
+    if (val[0] !== old[0]) {
+      volume.value = val[0]
+    }
+    systemStatus.value = Boolean(val[1])
   }
 )
 
@@ -123,7 +119,7 @@ const timeoutVolume = ref<any>(null)
         <!-- left -->
         <div class="grid grid-cols-2 gap-3">
           <h4 class="text-base font-base text-black dark:text-white">Chế độ cảnh báo</h4>
-          <SwitchFour @change="onChangeSystem" v-model="systemStatus"/>
+          <SwitchFour @change="onChangeSystem" v-model="masterStore.getSystemStatus"/>
           <h4 class="text-base font-base text-black dark:text-white">Còi</h4>
           <SwitchFour @update:modelValue="onChangeSystem" :disabled="true" v-model="masterStore.buzzer"/>
         </div>
@@ -144,7 +140,7 @@ const timeoutVolume = ref<any>(null)
           <div class="flex w-full gap-5">
             <span class="text-base font-base text-black dark:text-white"
             >0</span>
-            <vue-slider class="flex-1" v-model="volume" @change="onChangeVolume"></vue-slider>
+            <vue-slider class="flex-1" v-model="masterStore.getBuzzerVolume" @change="onChangeVolume"></vue-slider>
             <span class="text-base font-base text-black dark:text-white"
             >100</span>
           </div>

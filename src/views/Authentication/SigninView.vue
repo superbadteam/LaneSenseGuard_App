@@ -16,8 +16,8 @@ const onSubmit = async () => {
   console.log('Password', password.value)
   const data = await loginApi(email.value, password.value);
   console.log(data);  
-  localStorage.setItem('access_token', data.accessToken);
-  localStorage.setItem('refresh_token', data.refreshToken);
+  localStorage.setItem('access_token', data.tokens.access.token);
+  localStorage.setItem('refresh_token', data.tokens.refresh.token);
   location.reload();
   router.push('/');
  } catch (error) {
